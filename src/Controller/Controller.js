@@ -105,7 +105,29 @@ class Controller {
   }
 
   makeTeamMatching(course, mission, headcount) {
-    this.#teamMatching.match(course, mission, headcount);
+    const crews = this.#crew.getCrews(course);
+
+    this.#teamMatching.randomMatch(crews, { course, mission, headcount });
+    const result = this.#teamMatching.getResult();
+    OutputView.printTeamMatchingResult(result);
+
+    InputView.teamMatching.readToRematch(this.decideToRematchOrGoHome.bind(this));
+  }
+
+  decideToRematchOrGoHome(command) {
+    if (command === COMMAND.home) {
+      this.readToManageOrQuit();
+      return;
+    }
+
+    if (command === COMMAND.rematching) {
+      this.rematch();
+    }
+  }
+
+  rematch() {
+    this.#teamMatching.reset();
+    InputView.teamMatching.readCourse(this.setTeamCourse.bind(this));
   }
 }
 

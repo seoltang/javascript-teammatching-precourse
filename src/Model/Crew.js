@@ -1,6 +1,6 @@
 class Crew {
   #crews = {
-    frontend: [],
+    frontend: ['준', '포코', '공원', '로이드', '포비', '워니', '서준'],
     backend: [],
   };
 
