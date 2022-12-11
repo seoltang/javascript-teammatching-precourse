@@ -49,8 +49,8 @@ const InputView = {
       InputView.readInput(InputView.MESSAGE.crew.viewCrewList, callback);
     },
 
-    readToAddOrDelete(callback) {
-      InputView.readInput(InputView.MESSAGE.crew.addOrDeleteCrew, callback);
+    readToAddOrDelete(callback, course) {
+      InputView.readInput(InputView.MESSAGE.crew.addOrDeleteCrew, callback, course);
     },
 
     readAdding(callback) {

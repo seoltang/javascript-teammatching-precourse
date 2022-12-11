@@ -6,16 +6,16 @@ const InputView = require('../view/InputView');
 const OutputView = require('../view/OutputView');
 
 class Controller {
-  #crew;
+  #crew = new Crew();
 
-  #teamMatching;
+  #teamMatching = new TeamMatching();
 
   start() {
     OutputView.printStart();
-    this.readManagementOrQuit();
+    this.readToManageOrQuit();
   }
 
-  readManagementOrQuit() {
+  readToManageOrQuit() {
     InputView.readManagement(this.decideToStartManagementOrQuit.bind(this));
   }
 
@@ -34,7 +34,7 @@ class Controller {
 
   selectManagement(command) {
     if (command === COMMAND.crewManagement) {
-      InputView.crew.readCourse(this.startCrewManagement.bind(this));
+      InputView.crew.readCourse(this.selectCrewCourse.bind(this));
       return;
     }
 
@@ -43,12 +43,40 @@ class Controller {
     }
   }
 
-  startCrewManagement() {
-    this.#crew = new Crew();
+  selectCrewCourse(courseCommand) {
+    const course = { [COMMAND.frontend]: 'frontend', [COMMAND.backend]: 'backend' }[courseCommand];
+    this.printCurrentCrewList(course);
+
+    InputView.crew.readToAddOrDelete(this.decideToManageCrewOrGoHome.bind(this, course));
+  }
+
+  printCurrentCrewList(course) {
+    const crews = this.#crew.getCrews(course);
+    OutputView.printCrewList(crews, course);
+  }
+
+  decideToManageCrewOrGoHome(course, command) {
+    if (command === COMMAND.home) {
+      this.readToManageOrQuit();
+      return;
+    }
+
+    this.decideToAddOrDeleteCrew(command, course);
+  }
+
+  decideToAddOrDeleteCrew(command, course) {
+    if (command === COMMAND.addCrew) {
+      this.#crew.add(course);
+      return;
+    }
+
+    if (command === COMMAND.deleteCrew) {
+      this.#crew.delete(course);
+    }
   }
 
   startTeamMatchingManagement() {
-    this.#teamMatching = new TeamMatching();
+    this.#teamMatching;
   }
 }
 

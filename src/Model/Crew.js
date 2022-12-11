@@ -1,7 +1,16 @@
 class Crew {
-  #frontend = [];
+  #crews = {
+    frontend: [],
+    backend: [],
+  };
 
-  #backend = [];
+  getCrews(course) {
+    return this.#crews[course];
+  }
+
+  add(course) {}
+
+  delete(course) {}
 }
 
 module.exports = Crew;
