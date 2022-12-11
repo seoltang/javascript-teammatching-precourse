@@ -2,9 +2,9 @@ const { Console } = require('@woowacourse/mission-utils');
 
 const OutputView = {
   MESSAGE: {
-    crewList: {
-      frontend: '프론트엔드 크루 목록',
-      backend: '백엔드 크루 목록',
+    course: {
+      frontend: '프론트엔드',
+      backend: '백엔드',
     },
   },
 
@@ -23,7 +23,15 @@ const OutputView = {
     }
 
     Console.print(
-      `\n${OutputView.MESSAGE.crewList[course]}\n${OutputView.getCrewListMessage(crews)}`,
+      `\n${OutputView.MESSAGE.course[course]} 크루 목록\n${OutputView.getCrewListMessage(crews)}`,
+    );
+  },
+
+  printTeamMatchingResult({ course, mission, teams }) {
+    Console.print(
+      `\n${OutputView.MESSAGE.course[course]} ${mission} 팀이 매칭되었습니다.\n${teams
+        .map((team) => `- ${team.join()}\n`)
+        .join('')}`,
     );
   },
 };
