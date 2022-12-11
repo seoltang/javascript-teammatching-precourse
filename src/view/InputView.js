@@ -27,8 +27,8 @@ const InputView = {
     teamMatching: {
       course: `\n팀 매칭할 코스가 프론트엔드면 ${frontend}, 백엔드면 ${backend}를 입력하세요.\n`,
       mission: `\n팀 매칭할 미션 번호를 입력하세요.\n${MISSIONS.map(
-        (mission, index) => `${index + 1} ${mission}`,
-      ).join('\n')}`,
+        (mission, index) => `${index + 1} ${mission}\n`,
+      ).join('')}`,
       headcount: '\n1팀당 인원 수를 입력해 주세요.\n',
       rematch: `\n팀을 재매칭하려면 ${rematching}, 처음 메뉴로 돌아가려면 ${home}을 입력하세요.\n`,
     },
@@ -49,8 +49,8 @@ const InputView = {
       InputView.readInput(InputView.MESSAGE.crew.viewCrewList, callback);
     },
 
-    readToAddOrDelete(callback, course) {
-      InputView.readInput(InputView.MESSAGE.crew.addOrDeleteCrew, callback, course);
+    readToAddOrDelete(callback) {
+      InputView.readInput(InputView.MESSAGE.crew.addOrDeleteCrew, callback);
     },
 
     readAdding(callback) {

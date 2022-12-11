@@ -1,15 +1,19 @@
+const COMMAND = {
+  crewManagement: 'C',
+  teamMatchingManagement: 'T',
+  quit: 'Q',
+  home: 'H',
+  frontend: 'F',
+  backend: 'B',
+  addCrew: 'A',
+  deleteCrew: 'D',
+  rematching: 'R',
+};
+
 const settings = {
-  COMMAND: {
-    crewManagement: 'C',
-    teamMatchingManagement: 'T',
-    quit: 'Q',
-    home: 'H',
-    frontend: 'F',
-    backend: 'B',
-    addCrew: 'A',
-    deleteCrew: 'D',
-    rematching: 'R',
-  },
+  COMMAND,
+
+  COURSE: { [COMMAND.frontend]: 'frontend', [COMMAND.backend]: 'backend' },
 
   MISSIONS: [
     '숫자야구게임',

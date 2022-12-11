@@ -1,5 +1,5 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { COMMAND } = require('../settings');
+const { COMMAND, COURSE } = require('../settings');
 const Crew = require('../Model/Crew');
 const TeamMatching = require('../Model/TeamMatching');
 const InputView = require('../view/InputView');
@@ -39,12 +39,12 @@ class Controller {
     }
 
     if (command === COMMAND.teamMatchingManagement) {
-      InputView.teamMatching.readCourse(this.startTeamMatchingManagement.bind(this));
+      InputView.teamMatching.readCourse(this.setTeamCourse.bind(this));
     }
   }
 
   selectCrewCourse(courseCommand) {
-    const course = { [COMMAND.frontend]: 'frontend', [COMMAND.backend]: 'backend' }[courseCommand];
+    const course = COURSE[courseCommand];
 
     this.printCurrentCrewList(course);
     this.readAddOrDeleteCrew(course);
@@ -95,8 +95,17 @@ class Controller {
     this.readAddOrDeleteCrew(course);
   }
 
-  startTeamMatchingManagement() {
-    this.#teamMatching;
+  setTeamCourse(courseCommand) {
+    const course = COURSE[courseCommand];
+    InputView.teamMatching.readMission(this.setTeamMission.bind(this, course));
+  }
+
+  setTeamMission(course, mission) {
+    InputView.teamMatching.readHeadcount(this.makeTeamMatching.bind(this, course, mission));
+  }
+
+  makeTeamMatching(course, mission, headcount) {
+    this.#teamMatching.match(course, mission, headcount);
   }
 }
 
