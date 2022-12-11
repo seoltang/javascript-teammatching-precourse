@@ -45,8 +45,12 @@ class Controller {
 
   selectCrewCourse(courseCommand) {
     const course = { [COMMAND.frontend]: 'frontend', [COMMAND.backend]: 'backend' }[courseCommand];
-    this.printCurrentCrewList(course);
 
+    this.printCurrentCrewList(course);
+    this.readAddOrDeleteCrew(course);
+  }
+
+  readAddOrDeleteCrew(course) {
     InputView.crew.readToAddOrDelete(this.decideToManageCrewOrGoHome.bind(this, course));
   }
 
@@ -61,18 +65,34 @@ class Controller {
       return;
     }
 
-    this.decideToAddOrDeleteCrew(command, course);
+    if (command === COMMAND.addCrew || command === COMMAND.deleteCrew) {
+      this.addOrDeleteCrew(command, course);
+    }
   }
 
-  decideToAddOrDeleteCrew(command, course) {
+  addOrDeleteCrew(command, course) {
     if (command === COMMAND.addCrew) {
-      this.#crew.add(course);
+      InputView.crew.readAdding(this.addCrew.bind(this, course));
       return;
     }
 
     if (command === COMMAND.deleteCrew) {
-      this.#crew.delete(course);
+      InputView.crew.readDeleting(this.deleteCrew.bind(this, course));
     }
+  }
+
+  addCrew(course, crewName) {
+    this.#crew.add(course, crewName);
+
+    this.printCurrentCrewList(course);
+    this.readAddOrDeleteCrew(course);
+  }
+
+  deleteCrew(course, crewNumber) {
+    this.#crew.delete(course, crewNumber);
+
+    this.printCurrentCrewList(course);
+    this.readAddOrDeleteCrew(course);
   }
 
   startTeamMatchingManagement() {
